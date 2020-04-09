@@ -58,9 +58,13 @@ class Graph:
                 result.append([u,v,w]) 
                 self.union(parent, rank, x, y)             
 
+        suma_vertices = 0
+
         print ("Los vertices construidos son: ")
         for u,v,weight  in result: 
             print ((chr(u+97),chr(v+97),weight))
+            suma_vertices+=weight
+        print("Coste minimo: ", suma_vertices)
 
 def lecturaDatos(dir = "datos.txt"):
     lista_nodos = []
