@@ -5,7 +5,8 @@
 # C R 5
 # ...
 from collections import defaultdict 
-  
+import operator
+
 class Graph: 
     def __init__(self,vertices): 
         self.V= vertices
@@ -59,9 +60,12 @@ class Graph:
                 self.union(parent, rank, x, y)             
 
         suma_vertices = 0
-
+        print(result)
         print ("Los vertices construidos son: ")
-        for u,v,weight  in result: 
+
+        result = sorted(result,key = operator.itemgetter(2, 0, 1))
+
+        for u,v,weight in result: 
             print ((chr(u+97),chr(v+97),weight))
             suma_vertices+=weight
         print("Coste minimo: ", suma_vertices)
