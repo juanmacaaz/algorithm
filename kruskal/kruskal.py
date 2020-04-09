@@ -70,6 +70,12 @@ class Graph:
             suma_vertices+=weight
         print("Coste minimo: ", suma_vertices)
 
+        print("Lista de vertices ordenada: ")
+        out = ""
+        for u,v,_ in result:
+            out += chr(u+97).upper()+chr(v+97).upper()+','
+        print(out[:-1])
+
 def lecturaDatos(dir = "datos.txt"):
     lista_nodos = []
     archivo = open(dir, "r")
