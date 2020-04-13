@@ -1,17 +1,12 @@
 # Algoritmo que realiza havel hakimi
 
-SEQUENCIA = [2,3,3,3,4,4,4,7]
+SEQUENCIA = [6, 5, 4, 3, 2, 2, 2, 2]
 
 def havelHakimi(sequence):
-    # Things that may immediatly disqualify a sequence:
-    # 1) non-integers
-    # 2) negative numbers
-    # 3) sum of sequence is not even
     if all(isinstance(deg, int) for deg in sequence):
         s = list(sequence) 
     else:
-        return False #list contains non-integer degrees
-    #An empty sequence is still graphic
+        return False
     if len(s) == 0:
         print("Secuencia vacia")
         return True 
@@ -30,7 +25,12 @@ def havelHakimi(sequence):
             return False
         d=s.pop(0)
         if d==0:
-            print("Perfecto es una sequencia grafica")
+            if -1 in s:
+                print("No es una sequencia grafica")
+                return False
+            else:
+                print("Perfecto es una sequencia grafica")
+                return True
             return True
         if d>len(s):
             print(str(d)+" es muy largo para la sequencia!")
@@ -41,3 +41,10 @@ def havelHakimi(sequence):
     return False
 
 havelHakimi(SEQUENCIA)
+
+lista = []
+for x in range(200):
+    if havelHakimi([4,1,x+2,x,x,x,x]):
+        lista.append(x)
+
+print(lista)
