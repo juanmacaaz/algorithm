@@ -2,25 +2,6 @@ import networkx as nx
 import matplotlib.pyplot as ptl
 import itertools
 
-def _expand(G, explored_nodes, explored_edges):
-    frontier_nodes = list()
-    frontier_edges = list()
-    for v in explored_nodes:
-        for u in nx.neighbors(G,v):
-            if not (u in explored_nodes):
-                frontier_nodes.append(u)
-                frontier_edges.append([(u,v), (v,u)])
-    return zip([explored_nodes | frozenset([v]) for v in frontier_nodes], [explored_edges | frozenset(e) for e in frontier_edges])
-
-def find_all_spanning_trees(G, root=0):
-    explored_nodes = frozenset([root])
-    explored_edges = frozenset([])
-    solutions = [(explored_nodes, explored_edges)]
-    for ii in range(G.number_of_nodes()-1):
-        solutions = [_expand(G, nodes, edges) for (nodes, edges) in solutions]
-        solutions = set([item for sublist in solutions for item in sublist])
-    return [nx.from_edgelist(edges) for (nodes, edges) in solutions]
-
 def print_graph(l):
     print("---------------------------------------------------------")
     print("El grafo tiene los nodos: ")
@@ -33,7 +14,45 @@ def print_graph(l):
     print()
     print("El peso es de: ", l.size(weight="weight"))
     print("---------------------------------------------------------")
-    
+
+def is_all(l):
+    cogido = []
+    for x in l:
+        if x[0] not in cogido:
+            cogido.append(x[0])
+        if x[1] not in cogido:
+            cogido.append(x[1])
+    return len(cogido)
+
+def get_degrees(g):
+    return [d for n, d in g.degree()]
+
+def all_sub_graph(g):
+    l = []
+    r_edges = []
+    for x in list(itertools.combinations(g.edges.data(data=True), len(g.nodes)-1)):
+        new = nx.Graph()
+        new.add_nodes_from(g.nodes)
+        edges = []
+        for e in x:
+            edges.append([e[0], e[1], e[2]["weight"]])
+        edges = sorted(edges, key=lambda t: t[2])
+        edges = sorted(edges, key=lambda t: t[1])
+        edges = sorted(edges, key=lambda t: t[0])
+        s_edges = str(edges[0])+str(edges[1])+str(edges[2])
+        if s_edges not in r_edges:
+            r_edges.append(s_edges)
+            for z in edges:
+                new.add_edge(z[0], z[1], weight=z[2])
+            l.append(new)
+    return set(l)
+
+def get_all_spanning_trees(g):
+    l = []
+    for x in all_sub_graph(g):
+        if nx.algorithms.is_tree(x) == True and (is_all(x.edges) == len(g.nodes)):
+            l.append(x)
+    return l
 
 G = nx.Graph()
 
@@ -62,13 +81,10 @@ for linea in lineas:
 
 print_graph(G)
 
+for x in get_all_spanning_trees(G):
+    print_graph(x)
+
 print("Arbol generador minimo es: ")
 print_graph(nx.algorithms.minimum_spanning_tree(G))
 print("Arbol generador maximo es: ")
 print_graph(nx.algorithms.maximum_spanning_tree(G))
-
-# Ahora que marcar el source
-print("El arbol con el algorimo BFS es: ")
-print_graph(nx.algorithms.bfs_tree(G, "A"))
-print("El arbol con el algorimo DFS es: ")
-print_graph(nx.algorithms.dfs_tree(G, "F"))

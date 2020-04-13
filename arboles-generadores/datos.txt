@@ -4,6 +4,6 @@ A E 5
 B E 6
 B C 12
 B F 6
-C F 6
+C F 4
 C D 13
 E F 6
