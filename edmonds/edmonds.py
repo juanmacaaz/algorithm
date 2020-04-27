@@ -66,6 +66,14 @@ def muestraCamino(parejaMinima):
             print(chr(y+97).upper(), end='')
         print(' ', end='')
 
+def bimatrix(graph):
+    matrix = graph
+    for i in range(0, len(matrix)):
+        for j in range(0, len(matrix)):
+            matrix[j][i] = graph[i][j]
+    return matrix
+
+
 def subconjuntoSenares(matrix):
     verticesValidos = []
     matrixValidos = []
@@ -91,12 +99,16 @@ def subconjuntoSenares(matrix):
         
 
 # Formato [[]]
-graph =     [[0,7,INF,17,4,5],
-            [7,0,20,INF,10,INF],
-            [INF,20,0,11,7,INF],
-            [17,INF,11,0,INF,22],
-            [4,10,7,INF,0,INF],
-            [5,INF,INF,22,INF,0]]
+graph =     [[0,2,INF,INF,INF,INF],
+            [0,0,1,5,5,9],
+            [0,0,0,INF,2,INF],
+            [0,0,0,0,1,15],
+            [0,0,0,0,0,10],
+            [0,0,0,0,0,0]]
+
+graph = bimatrix(graph)
+
+printSolution(graph)
 
 matrixR, recorridos = floydWarshall(graph)
 
@@ -117,7 +129,7 @@ for x in combinaciones:
                 aux.append([x,y])
 
 combinacionesParejas = aux
-
+print(combinacionesParejas)
 print('Se puede emparejar de x maneras:')
 print(len(combinacionesParejas))
 
@@ -183,4 +195,4 @@ for x in graph:
             pesoGrafo+=y
 
 print('El peso del grafo euleiano es:')
-print((pesoGrafo/2))
+print((pesoGrafo/2)+minimo)
