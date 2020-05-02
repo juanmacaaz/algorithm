@@ -52,12 +52,11 @@ def bimatrix(graph):
             matrix[j][i] = graph[i][j]
     return matrix
 
-initMatrix = bimatrix([ [0,10,15,15,5,10],
-                        [0,0,20,5,15,20],
-                        [0,0,0,10,15,15],
-                        [0,0,0,0,15,20],
-                        [0,0,0,0,0,12],
-                        [0,0,0,0,0,0]])
+initMatrix = bimatrix([ [0,15,13,14,10],
+                        [0,0,7,18,12],
+                        [0,0,0,14,8],
+                        [0,0,0,0,8],
+                        [0,0,0,0,0]])
 
 cinitMatrix = initMatrix
 
@@ -94,9 +93,16 @@ def minValue(valor):
     listsTemp = []
     for x in grafoPreparado:
         if valor in x:
+            if grafoPreparado.count(x) == 2:
+                return x
+
+    for x in grafoPreparado:
+        if valor in x:
             listsTemp.append(x)
     return min(listsTemp)
 
+
+print(grafoPreparado)
 
 def getVertex(actual, profucndidad):
     nuevalista.append(actual)
@@ -129,4 +135,4 @@ for x in verticesParaLaSuma:
     sumaTotal+=cinitMatrix[x[0]][x[1]]
 print()
 print(sumaTotal)
-print(1+(sumaTotal*(3/2)))
+print((sumaTotal*2)/3)
