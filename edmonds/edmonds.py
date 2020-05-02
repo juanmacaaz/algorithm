@@ -1,7 +1,7 @@
 import itertools
 
 #Numero de variables
-nV = 6
+nV = 8
 
 INF = 99999
 
@@ -99,12 +99,14 @@ def subconjuntoSenares(matrix):
         
 
 # Formato [[]]
-graph =     [[0,2,INF,INF,INF,INF],
-            [0,0,1,5,5,9],
-            [0,0,0,INF,2,INF],
-            [0,0,0,0,1,15],
-            [0,0,0,0,0,10],
-            [0,0,0,0,0,0]]
+graph =     [[0,8,20,INF,2,INF,INF,INF],
+            [0,0,10,8,INF,2,INF,INF],
+            [0,0,0,8,INF,INF,2,INF],
+            [0,0,0,0,INF,INF,INF,2],
+            [0,0,0,0,0,3,20,10],
+            [0,0,0,0,0,0,INF,3],
+            [0,0,0,0,0,0,0,2],
+            [0,0,0,0,0,0,0,0]]
 
 graph = bimatrix(graph)
 
@@ -122,11 +124,14 @@ combinaciones = list(itertools.combinations(vertices, 2))
 combinacionesParejas = list(itertools.combinations(combinaciones, 2))
 
 aux = []
+aux2 = []
 for x in combinaciones:
     for y in combinaciones:
         if x[0] not in y and x[1] not in y:
-            if [y,x] not in aux:
+            if [y,x] not in aux and x not in aux2 and y not in aux2:
                 aux.append([x,y])
+                aux2.append(x)
+                aux2.append(y)
 
 combinacionesParejas = aux
 print(combinacionesParejas)
